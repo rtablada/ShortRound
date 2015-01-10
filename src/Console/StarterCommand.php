@@ -40,9 +40,21 @@ class StarterCommand extends Command
         $this->starterBlueprintPath = __DIR__ . '/../../blueprints/starter';
     }
 
+    protected $ensureDirectories = [
+        'resources/assets/less/admin',
+    ];
+
     protected $blueprintFiles = [
+        'gulpfile.js',
         'bower.json',
         'resources/templates/admin',
+    ];
+
+    protected $bowerComponents = [
+        'sb-admin-2/less/sb-admin-2.less' => 'resources/assets/less/admin/sb-admin-2.less',
+        'sb-admin-2/less/variables.less'  => 'resources/assets/less/admin/sb-variables.less',
+        'bootstrap/less/variables.less'  => 'resources/assets/less/admin/bootstrap-variables.less',
+        'bootstrap/less/bootstrap.less'  => 'resources/assets/less/admin/bootstrap.less',
     ];
 
     /**
@@ -60,9 +72,29 @@ class StarterCommand extends Command
 
         $this->file->append(base_path('.gitignore'), "bower_components\n.vagrant\n.idea\nnode_modules\n");
 
+        foreach ($this->ensureDirectories as $dir) {
+            $this->file->makeDirectory($dir, 0755, true);
+        }
+
         foreach ($this->blueprintFiles as $blueprint) {
             $this->copyBlueprint($blueprint);
         }
+
+        passthru('cd ' . base_path() . ' && bower install && npm install && npm install gulp-concat --save-dev');
+
+        foreach ($this->bowerComponents as $src => $dest) {
+            $this->pullInBowerComponent($src, $dest);
+        }
+
+        $sbAdminPath = base_path('resources/assets/less/admin/sb-admin-2.less');
+        $sbAdmin = $this->file->get($sbAdminPath);
+
+        $sbAdmin = str_replace('variables.less', 'sb-variables.less', $sbAdmin);
+        $sbAdmin = str_replace('@import "mixins.less";', '', $sbAdmin);
+
+        $this->file->put($sbAdminPath, $sbAdmin);
+
+        passthru('cd ' . base_path() . ' && gulp');
     }
 
     protected function copyBlueprint($file)
@@ -79,6 +111,13 @@ class StarterCommand extends Command
     protected function getBlueprint($file)
     {
         return $this->starterBlueprintPath . '/' . $file;
+    }
+
+    protected function pullInBowerComponent($src, $destination)
+    {
+        $path = base_path('bower_components/' . $src);
+
+        $this->file->copy($path, base_path($destination));
     }
 
     /**
