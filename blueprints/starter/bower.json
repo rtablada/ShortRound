@@ -1,0 +1,18 @@
+{
+  "name": "ShortRoundCMS",
+  "version": "0.1.0",
+  "homepage": "https://github.com/rtablada/ShortRound",
+  "authors": [
+    "Ryan Tablada <ryan.tablada@gmail.com>"
+  ],
+  "description": "A set of tools to make awesome custom CMSes!",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
