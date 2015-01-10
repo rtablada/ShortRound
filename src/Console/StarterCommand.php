@@ -47,7 +47,9 @@ class StarterCommand extends Command
     protected $blueprintFiles = [
         'gulpfile.js',
         'bower.json',
-        'resources/templates/admin',
+        'elixir.json',
+        'resources/views/admin',
+        'resources/assets/less',
     ];
 
     protected $bowerComponents = [
@@ -86,13 +88,8 @@ class StarterCommand extends Command
             $this->pullInBowerComponent($src, $dest);
         }
 
-        $sbAdminPath = base_path('resources/assets/less/admin/sb-admin-2.less');
-        $sbAdmin = $this->file->get($sbAdminPath);
-
-        $sbAdmin = str_replace('variables.less', 'sb-variables.less', $sbAdmin);
-        $sbAdmin = str_replace('@import "mixins.less";', '', $sbAdmin);
-
-        $this->file->put($sbAdminPath, $sbAdmin);
+        $this->updateBootstrapImports();
+        $this->updateSbAdminImports();
 
         passthru('cd ' . base_path() . ' && gulp');
     }
@@ -142,6 +139,28 @@ class StarterCommand extends Command
     {
         return [
         ];
+    }
+
+    private function updateSbAdminImports()
+    {
+        $sbAdminPath = base_path('resources/assets/less/admin/sb-admin-2.less');
+        $sbAdmin = $this->file->get($sbAdminPath);
+
+        $sbAdmin = str_replace('variables.less', 'sb-variables.less', $sbAdmin);
+        $sbAdmin = str_replace('@import "mixins.less";', '', $sbAdmin);
+
+        $this->file->put($sbAdminPath, $sbAdmin);
+    }
+
+    private function updateBootstrapImports()
+    {
+        $bootstrapPath = base_path('resources/assets/less/admin/bootstrap.less');
+        $bootstrap = $this->file->get($bootstrapPath);
+
+        $bootstrap = str_replace('@import "', '@import "../../../../bower_components/bootstrap/less/', $bootstrap);
+        $bootstrap = str_replace('@import "../../../../bower_components/bootstrap/less/variables', '@import "bootstrap-variables', $bootstrap);
+
+        $this->file->put($bootstrapPath, $bootstrap);
     }
 
 }

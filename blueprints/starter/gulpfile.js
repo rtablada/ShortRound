@@ -32,6 +32,11 @@ elixir(function(mix) {
 
     mix.scriptOut([
         bower('jquery/dist/jquery.js'),
-        bower('bootstrap/dist/js/bootstrap.js')
+        bower('bootstrap/dist/js/bootstrap.js'),
+        bower('sb-admin-2/js/metisMenu/metisMenu.js'),
+        bower('sb-admin-2/js/sb-admin-2.js')
     ], 'admin.js');
+
+    mix.publish('font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css')
+        .publish('font-awesome/fonts', 'public/fonts');
 });
