@@ -32,6 +32,7 @@
 
     <!-- jQuery Version 1.11.0 -->
     <script src="/js/admin.js"></script>
+    @yield('scripts')
 
 </body>
 

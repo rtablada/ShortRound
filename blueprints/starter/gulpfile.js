@@ -33,9 +33,15 @@ elixir(function(mix) {
     mix.scriptOut([
         bower('jquery/dist/jquery.js'),
         bower('bootstrap/dist/js/bootstrap.js'),
-        bower('sb-admin-2/js/metisMenu/metisMenu.js'),
+        bower('sb-admin-2/js/plugins/metisMenu/metisMenu.js'),
         bower('sb-admin-2/js/sb-admin-2.js')
     ], 'admin.js');
+
+    mix.scriptOut([
+        bower('sb-admin-2/js/plugins/morris/raphael.min.js'),
+        bower('sb-admin-2/js/plugins/morris/morris.js'),
+        bower('sb-admin-2/js/plugins/morris/morris-data.js'),
+    ], 'admin-morris.js');
 
     mix.publish('font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css')
         .publish('font-awesome/fonts', 'public/fonts');
