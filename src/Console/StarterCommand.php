@@ -50,6 +50,9 @@ class StarterCommand extends Command
         'elixir.json',
         'resources/views/admin',
         'resources/assets/less',
+        'database/seeds/DatabaseSeeder.php',
+        'database/seeds/MenuSeeder.php',
+        'app/Models/Menu.php',
     ];
 
     protected $bowerComponents = [
