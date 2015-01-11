@@ -332,6 +332,11 @@
     </nav>
 
     <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{ $title or 'Dashboard'}}</h1>
+            </div>
+        </div>
         @yield('page')
     </div>
     <!-- /#page-wrapper -->
@@ -341,5 +346,12 @@
 @endsection
 
 @section('scripts')
+<script src="/js/metis.js"></script>
 <script src="/js/admin-morris.js"></script>
-@endsection
+<script>
+    (function(){
+
+        $('#side-menu').metisMenu();
+    })();
+</script>
+@append

@@ -14,6 +14,7 @@ var concat = require('gulp-concat');
  */
 
 var bower = function(path) {
+    console.log('bower_components/' + path);
     return 'bower_components/' + path;
 };
 
@@ -33,7 +34,6 @@ elixir(function(mix) {
     mix.scriptOut([
         bower('jquery/dist/jquery.js'),
         bower('bootstrap/dist/js/bootstrap.js'),
-        bower('sb-admin-2/js/plugins/metisMenu/metisMenu.js'),
         bower('sb-admin-2/js/sb-admin-2.js')
     ], 'admin.js');
 
@@ -43,6 +43,14 @@ elixir(function(mix) {
         bower('sb-admin-2/js/plugins/morris/morris-data.js'),
     ], 'admin-morris.js');
 
+    mix.scriptOut([
+        bower('datatables/media/js/jquery.dataTables.js'),
+        bower('sb-admin-2/js/plugins/dataTables/dataTables.bootstrap.js'),
+    ], 'data-tables.js');
+
     mix.publish('font-awesome/css/font-awesome.min.css', 'public/css/font-awesome.min.css')
-        .publish('font-awesome/fonts', 'public/fonts');
+        .publish('metisMenu/dist/metisMenu.js', 'public/js/metis.js')
+        .publish('font-awesome/fonts', 'public/fonts')
+        .publish('sb-admin-2/fonts', 'public/fonts')
+        .publish('datatables-bootstrap3/BS3/assets/images', 'public/images');
 });
